@@ -1,0 +1,17 @@
+Q:
+    3. Un semnal este digitizat cu o frecvent,˘a de es,antionare de 2000 Hz.
+    (a) Care este intervalul de timp ˆıntre dou˘a es,antioane?
+    (b) Dac˘a un es,antion este memorat pe 4 bit, i, cˆat, i bytes vor ocupa 1 or˘a
+    de achizit, ie?
+
+A:
+    a) Fie f = frecventa de esantionare, t = timpul dintre 2 esantionari.
+            Def:f = 1/t Hz  => t = 1/f s
+            t = 1/2000 s = 5/10_000 s = 5 * 10^(-4) s
+
+    b)
+        Din a) => 2000 esantioane pe secunda                |              2    * 10^3 esantioane/s
+               => * 60 = 120_000 esantioane pe minut        | * 6 * 10^1 = 1.2  * 10^5 esantioane/min
+               => * 60 = 7_200_000 esantioane pe ora        | * 6 * 10^1 = 7.2  * 10^6 esantioane/h
+               => * 4  = 28_800_000 biti pe ora             | * 4        = 2.88 * 10^7 biti/h
+               => / 8  = 3_600_000 bytes pe ora             | / 8        = 3.6  * 10^6 bytes/h
