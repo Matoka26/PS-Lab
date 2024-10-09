@@ -1,3 +1,10 @@
+'''
+1. Generat, i un semnal sinusoidal de tip sinus, de amplitudine, frecvent,˘a s, i
+faz˘a aleas˘a de voi. Generat, i apoi un semnal de tip cosinus astfel ˆıncˆat pe
+orizontul de timp ales, acesta s˘a fie identic cu semnalul sinus. Verificat, i
+afis,ˆandu-le grafic ˆın dou˘a subplot-uri diferite.
+'''
+
 import os
 import numpy as np
 import matplotlib.pyplot as plt

@@ -1,3 +1,23 @@
+'''
+2. Generat, i un semnal sinusoidal de amplitudine unitar˘a s, i frecvent,˘a aleas˘a
+de voi. ˆIncercat, i 4 valori diferite pentru faz˘a. Afis,at, i toate semnalele pe
+acelas, i grafic.
+Pentru unul dintre semnalele anteriore, ad˘augat, i zgomot aleator sinusoidei
+es,antionate generate. Noul semnal este x[n] + γz[n] astfel ˆıncˆat raportul
+semnal zgomot (Signal to Noise Ratio sau SNR) s˘a fie {0.1, 1, 10, 100}.
+SNR este definit astfel: SNR = ∥x∥
+2
+2
+γ2∥z∥
+2
+2
+. Vectorul z este generat es,antionˆand
+distribut, ia Gaussian˘a standard iar parametrul γ se calculeaz˘a astfel ˆıncˆat
+s˘a avem valorile SNR dorite. C˘autat, i funct, iile numpy.linalg.norm s, i apoi
+numpy.random.normal care v˘a vor ajuta.
+
+'''
+
 import os
 import numpy as np
 import matplotlib.pyplot as plt
