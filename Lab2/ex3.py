@@ -1,23 +1,7 @@
 '''
-Generat, i urm˘atoarele semnale s, i afis,at, i-le grafic, fiecare ˆıntr-un plot:
-    (a) Un semnal sinusoidal de frecvent,˘a 400 Hz, care s˘a cont, in˘a 1600 de
-    es,antioane.
-
-    (b) Un semnal sinusoidal de frecvent,˘a 800 Hz, care s˘a dureze 3 secunde.
-
-    (c) Un semnal de tip sawtooth de frecvent,˘a 240 Hz (putet, i folosi funct, iile
-    numpy.floor sau numpy.mod).
-
-    (d) Un semnal de tip square de frecvent,˘a 300 Hz (putet, i folosi funct, ia
-    numpy.sign).
-
-    (e) Un semnal 2D aleator. Creat, i un numpy.array de dimensiune 128x128
-    s, i init, ializat, i-l aleator, folosind numpy.random.rand(x,y), unde x s, i
-    y reprezint˘a num˘arul de linii respectiv de coloane. Afis,at, i semnalul
-    generat folosind funct, ia imshow(I) din matplotlib.
-
-    (f) Un semnal 2D la alegerea voastr˘a. Creat, i un numpy.array de dimensiune 128x128 s, i init, ializat, i-l folosind o procedur˘a creat˘a de voi.
-    Utilizat, i, spre exemplu, funct, iile numpy.zeros() s, i numpy.ones().
+3. Ascultat, i semnalele pe care le-at, i generat la laboratorul precedent pentru exercit, iile 2.(a)-(d) folosind biblioteca sounddevice. Salvat, i unul din
+semnale ca fis, ier .wav s, i verificat, i c˘a ˆıl putet, i ˆınc˘arca de pe disc utilizˆand
+scipy.io.wavfile.read().
 '''
 import os
 import numpy as np
@@ -27,12 +11,12 @@ from scipy.io import wavfile
 wave_sounds_directory = 'wave_sounds'
 
 
-def play_wave(wave: np.array, file_name: str, audio_sample_rate: int = 44100) -> None:
+def play_wave(wave: np.array, file_name: str, audio_sample_rate: int = 44100, loop: bool = False) -> None:
     if not os.path.isdir(wave_sounds_directory):
         os.makedirs(wave_sounds_directory, exist_ok=True)
 
     wavfile.write(f'./{wave_sounds_directory}/{file_name}.wav', audio_sample_rate, wave)
-    sd.play(wave, samplerate=audio_sample_rate, loop=False)     # Make loop=True to actually hear it, it ends too quick
+    sd.play(wave, samplerate=audio_sample_rate, loop=loop)     # Make loop=True to actually hear it, it ends too quick
     sd.wait()
 
 
@@ -101,6 +85,8 @@ def ex_d():
 
 
 if __name__ == "__main__":
+    if not os.path.isdir(wave_sounds_directory):
+        os.makedirs(wave_sounds_directory, exist_ok=True)
     ex_a()
     ex_b()
     ex_c()

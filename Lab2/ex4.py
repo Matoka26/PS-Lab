@@ -1,3 +1,9 @@
+'''
+4. Generat, i dou˘a semnale cu forme de und˘a diferite (ex., unul sinusoidal,
+cel˘alalt sawtooth) s, i adunat, i-le es,antioanele. Afis,at, i grafic cele dou˘a semnale init, iale s, i suma lor, fiecare ˆın cˆate un subplot.
+
+'''
+
 import os
 import numpy as np
 import matplotlib.pyplot as plt
