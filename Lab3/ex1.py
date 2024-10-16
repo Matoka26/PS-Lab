@@ -10,14 +10,11 @@ import matplotlib.pyplot as plt
 import numpy as np
 import os
 
-figures_directory = './figures'
+figures_directory1 = './figures_pdf'
+figures_directory2 = './figures_png'
 
 
-def sinusoidal(a: float, f: int, t: float, phi: float) -> float:
-    return a * np.cos(2 * np.pi * f * t + phi)
-
-
-def get_fourier_matrix(x: np.array, n: int) -> np.ndarray:
+def get_fourier_matrix(n: int) -> np.ndarray:
     F = np.zeros((n, n), dtype=complex)
 
     for k in range(n):
@@ -39,29 +36,15 @@ def get_fourier_components(x: np.array, nof_comp: int) -> np.array:
 
 
 if __name__ == '__main__':
-    if not os.path.isdir(figures_directory):
-        os.makedirs(figures_directory, exist_ok=True)
+    if not os.path.isdir(figures_directory1):
+        os.makedirs(figures_directory1, exist_ok=True)
 
-    nof_samples = 2000
+    if not os.path.isdir(figures_directory2):
+        os.makedirs(figures_directory2, exist_ok=True)
+
     n = 8
 
-    frequencies = np.random.randint(size=n, low=1, high=100, dtype=int)
-    amplitudes = np.random.randint(size=n, low=1, high=100, dtype=int)
-    phases = np.zeros(n)
-
-    samples = np.linspace(0, 1, nof_samples)
-
-    # Create the signal
-    wave = sinusoidal(amplitudes[0], frequencies[0], samples, phases[0])
-    for comp in range(1, n):
-        wave += sinusoidal(amplitudes[comp], frequencies[comp], samples, phases[comp])
-
-    # plt.plot([0, 0], [max(wave), -max(wave)])
-    # plt.plot(samples, [0] * nof_samples)
-    # plt.plot(samples, wave)
-    # plt.show()
-
-    components = get_fourier_matrix(wave, n)
+    components = get_fourier_matrix(n)
 
     print(f'Is unitary? {np.allclose(np.transpose(components), components)}')
 
@@ -73,4 +56,5 @@ if __name__ == '__main__':
         axs[i].plot([j + 1 for j in range(n)], components[i].imag, ".--")
         axs[i].set_ylabel(f"componenta {i}")
 
-    fig.savefig(f"./{figures_directory}/ex1.pdf")
+    fig.savefig(f"./{figures_directory1}/ex1.pdf")
+    fig.savefig(f"./{figures_directory2}/ex1.png")
