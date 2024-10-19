@@ -7,6 +7,7 @@ import os
 import numpy as np
 import sounddevice as sd
 from scipy.io import wavfile
+from utils import sinusoidal, square, sawtooth
 
 wave_sounds_directory = 'wave_sounds'
 
@@ -18,18 +19,6 @@ def play_wave(wave: np.array, file_name: str, audio_sample_rate: int = 44100, lo
     wavfile.write(f'./{wave_sounds_directory}/{file_name}.wav', audio_sample_rate, wave)
     sd.play(wave, samplerate=audio_sample_rate, loop=loop)     # Make loop=True to actually hear it, it ends too quick
     sd.wait()
-
-
-def sinusoidal(t: float, f=1, a=1, phi=0) -> float:
-    return a * np.sin(2 * np.pi * f * t + phi)
-
-
-def sawtooth(t: float, f=1, a=1, phi=0) -> float:
-    return 2 * a * np.mod(f * t + phi, a) - a
-
-
-def square(t: float, f=1, a=1, phi=0) -> float:
-    return a * np.sign(np.sin(2 * np.pi * f * t + phi))
 
 
 def s(x: int, y: int, u: float, v: float) -> float:

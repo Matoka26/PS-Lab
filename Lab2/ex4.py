@@ -7,16 +7,9 @@ cel˘alalt sawtooth) s, i adunat, i-le es,antioanele. Afis,at, i grafic cele dou
 import os
 import numpy as np
 import matplotlib.pyplot as plt
+from utils import sawtooth, square
 
 figures_directory = './figures'
-
-
-def sawtooth(t: float, f=1, a=1, phi=0) -> float:
-    return 2 * a * np.mod(f * t + phi, a) - a
-
-
-def square(t: float, f=1, a=1, phi=0) -> float:
-    return a * np.sign(np.sin(2 * np.pi * f * t + phi))
 
 
 if __name__ == "__main__":

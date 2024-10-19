@@ -9,24 +9,10 @@ numpy.linalg.norm pentru a verifica unitaritatea.
 import matplotlib.pyplot as plt
 import numpy as np
 import os
+from utils import sinusoidal, get_inverse_fourier_transform
 
 figures_directory1 = './figures_pdf'
 figures_directory2 = './figures_png'
-
-
-def sinusoidal(a: float, f: int, t: float, phi: float) -> float:
-    return a * np.sin(2 * np.pi * f * t + phi)
-
-
-def inverse_fourier_transform(X: np.array, n: int) -> np.array:
-    x = np.zeros(n, dtype=complex)
-
-    for m in range(n):
-        for k in range(n):
-            x[m] += X[k] * np.exp(2j * np.pi * k * m / n)
-
-    x /= n
-    return x
 
 
 if __name__ == '__main__':
@@ -62,7 +48,7 @@ if __name__ == '__main__':
     ax[0].set_ylabel('x(t)')
 
     # get the inverse
-    inv = inverse_fourier_transform(wave, nof_components)
+    inv = get_inverse_fourier_transform(wave, nof_components)
     freq = np.arange(0, nof_samples, nof_samples / nof_components)
 
     # plot inverse

@@ -20,20 +20,9 @@ Generat, i urm˘atoarele semnale s, i afis,at, i-le grafic, fiecare ˆıntr-un p
     Utilizat, i, spre exemplu, funct, iile numpy.zeros() s, i numpy.ones().
 '''
 
+from utils import sinusoidal, sawtooth, square
 import numpy as np
 import matplotlib.pyplot as plt
-
-
-def sinusoidal(t: float, f=1, a=1, phi=0) -> float:
-    return a * np.sin(2 * np.pi * f * t + phi)
-
-
-def sawtooth(t: float, f=1, a=1, phi=0) -> float:
-    return 2 * a * np.mod(f * t + phi, a) - a
-
-
-def square(t: float, f=1, a=1, phi=0) -> float:
-    return a * np.sign(np.sin(2 * np.pi * f * t + phi))
 
 
 def s(x: int, y: int, u: float, v: float) -> float:
@@ -42,16 +31,14 @@ def s(x: int, y: int, u: float, v: float) -> float:
 
 # a)
 def ex_a():
-
     no_samples = 1600
     f = 400
     a = 1
     phi = 0
     samples = np.linspace(0, 1, no_samples)
-    plt.plot(sinusoidal(samples, f, a, phi), c='r')
-
+    plt.plot(samples, sinusoidal(a, f, samples, phi), c='r')
     plt.plot([0,0], [a, -a])
-    plt.plot(samples, [0]*no_samples)
+    plt.plot(samples, np.zeros(no_samples))
     plt.savefig("./figures/ex2_a.pdf")
 
 
@@ -62,9 +49,10 @@ def ex_b():
     a = 1
     phi = 0
     samples = np.linspace(0, 3, no_samples)
-    plt.plot(samples, sinusoidal(samples, f, a, phi), c='r')
+    plt.clf()
+    plt.plot(samples, sinusoidal(a, f, samples, phi), c='r')
     plt.plot([0,0], [a, -a])
-    plt.plot(samples, [0]*no_samples)
+    plt.plot(samples, np.zeros(no_samples))
     plt.savefig("./figures/ex2_b.pdf")
 
 
@@ -75,9 +63,10 @@ def ex_c():
     a = 1
     phi = 0
     samples = np.linspace(0, 1, no_samples)
+    plt.clf()
     plt.plot(samples, sawtooth(samples, f, a, phi), c='r')
     plt.plot([0,0], [a, -a])
-    plt.plot(samples, [0]*no_samples)
+    plt.plot(samples, np.zeros(no_samples))
     plt.savefig("./figures/ex2_c.pdf")
 
 
@@ -88,9 +77,10 @@ def ex_d():
     a = 1
     phi = 0
     samples = np.linspace(0, 1, no_samples)
+    plt.clf()
     plt.plot(samples, square(samples, f, a, phi), c='r')
-    plt.plot([0,0], [a, -a])
-    plt.plot(samples, [0]*no_samples)
+    plt.plot([0, 0], [a, -a])
+    plt.plot(samples, np.zeros(no_samples))
     plt.savefig("./figures/ex2_d.pdf")
 
 
@@ -114,9 +104,9 @@ def ex_f():
 
 
 if __name__ == "__main__":
-   ex_a()
-   ex_b()
-   ex_c()
-   ex_d()
-   ex_e()
-   ex_f()
+    ex_a()
+    ex_b()
+    ex_c()
+    ex_d()
+    ex_e()
+    ex_f()

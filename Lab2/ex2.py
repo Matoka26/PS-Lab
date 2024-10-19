@@ -21,12 +21,9 @@ numpy.random.normal care v˘a vor ajuta.
 import os
 import numpy as np
 import matplotlib.pyplot as plt
+from utils import sinusoidal
 
 figures_directory = './figures'
-
-
-def sinusoidal(a: float, f: int, t: float, phi: float) -> float:
-    return a * np.sin(2 * np.pi * f * t + phi)
 
 
 def get_gamma(norm_x: float, norm_z: float, snr: float) -> float:

@@ -9,12 +9,9 @@ unde fs este frecvent,a de es,antionare, aleas˘a de voi. Notat, i ce observat, 
 import os
 import numpy as np
 import matplotlib.pyplot as plt
+from utils import sinusoidal
 
 figures_directory = './figures'
-
-
-def sinusoidal(a: float, f: int, t: float, phi: float) -> float:
-    return a * np.sin(2 * np.pi * f * t + phi)
 
 
 if __name__ == '__main__':

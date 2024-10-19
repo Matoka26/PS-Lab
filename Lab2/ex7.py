@@ -9,12 +9,9 @@ de la al doilea element din vector. Ce observat, i?
 import os
 import numpy as np
 import matplotlib.pyplot as plt
+from utils import sinusoidal
 
 figures_directory = './figures'
-
-
-def sinusoidal(a: float, f: int, t: float, phi: float) -> float:
-    return a * np.sin(2 * np.pi * f * t + phi)
 
 
 if __name__ == '__main__':

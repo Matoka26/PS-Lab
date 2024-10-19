@@ -1,6 +1,7 @@
 import os
 import numpy as np
 import matplotlib.pyplot as plt
+from utils import sinusoidal, get_complex_representation
 
 figures_directory1 = './figures_pdf'
 figures_directory2 = './figures_png'
@@ -8,13 +9,6 @@ figures_directory2 = './figures_png'
 plt.rcParams["figure.figsize"] = [7.50, 3.50]
 plt.rcParams["figure.autolayout"] = True
 
-
-def sinusoidal(a: float, f: int, t: float, phi: float) -> float:
-    return a * np.sin(2 * np.pi * f * t + phi)
-
-
-def get_complex_representation(x: np.array, omega=1) -> np.array:
-    return [x[i] * np.exp(-2j * np.pi * i * omega / len(x)) for i in range(len(x))]
 
 
 def plot_fig_1(samples: np.array, x: np.array, y: np.array, a: float) -> None:
@@ -54,7 +48,7 @@ def plot_fig_2(x: np.array, a: float) -> None:
         norm = plt.Normalize(distances.min(), distances.max())
         colors = plt.cm.viridis(norm(distances))
 
-        scatter = ax[i % 2, int(i < 2)].scatter([samp.real for samp in z], [samp.imag for samp in z], c=colors, s=5)
+        ax[i % 2, int(i < 2)].scatter([samp.real for samp in z], [samp.imag for samp in z], c=colors, s=5)
 
         ax[i % 2, int(i < 2)].plot([a, -a], [0, 0], color='black')
         ax[i % 2, int(i < 2)].plot([0, 0], [a, -a], color='black')

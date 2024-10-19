@@ -8,16 +8,9 @@ afis,ˆandu-le grafic ˆın dou˘a subplot-uri diferite.
 import os
 import numpy as np
 import matplotlib.pyplot as plt
+from utils import sinusoidal, cosinusoidal
 
 figures_directory = './figures'
-
-
-def sinusoidal(a: float, f: int, t: float, phi: float) -> float:
-    return a * np.sin(2 * np.pi * f * t + phi)
-
-
-def cosinusoidal(a: float, f: int, t: float, phi: float) -> float:
-    return a * np.cos(2 * np.pi * f * t + phi - np.pi/2)
 
 
 if __name__ == "__main__":

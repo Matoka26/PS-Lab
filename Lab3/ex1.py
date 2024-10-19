@@ -9,30 +9,10 @@ numpy.linalg.norm pentru a verifica unitaritatea.
 import matplotlib.pyplot as plt
 import numpy as np
 import os
+from utils import get_fourier_matrix, get_fourier_components
 
 figures_directory1 = './figures_pdf'
 figures_directory2 = './figures_png'
-
-
-def get_fourier_matrix(n: int) -> np.ndarray:
-    F = np.zeros((n, n), dtype=complex)
-
-    for k in range(n):
-        for m in range(n):
-            F[k, m] = np.exp(-2j * np.pi * k * m / n)
-    return F
-
-
-def get_fourier_components(x: np.array, nof_comp: int) -> np.array:
-    N = len(x)
-    X = np.zeros(nof_comp, dtype=complex)
-
-    for m in range(nof_comp):
-        sum = 0
-        for k in range(nof_comp):
-            sum += x[k] * np.exp(-2j * np.pi * k * m / N)
-        X[m] = sum
-    return X
 
 
 if __name__ == '__main__':
@@ -44,16 +24,21 @@ if __name__ == '__main__':
 
     n = 8
 
-    components = get_fourier_matrix(n)
+    F = get_fourier_matrix(n)
+    Fh = np.transpose(np.conjugate(F))
 
-    print(f'Is unitary? {np.allclose(np.transpose(components), components)}')
+    FhF = np.matmul(Fh, F)
+    # Diag de 2 ori?????
+    FhF = np.subtract(FhF, np.diag(np.diag(np.full((n, n), fill_value=FhF[0, 0]))))
+
+    print(f'Is unitary? {np.allclose(np.linalg.norm(FhF, ord="fro"), 0)}')
 
     fig, axs = plt.subplots(n, figsize=(12, 6), sharex=True, sharey=True)
     fig.suptitle("Fourier Matrix")
 
     for i in range(n):
-        axs[i].plot([j + 1 for j in range(n)], components[i].real)
-        axs[i].plot([j + 1 for j in range(n)], components[i].imag, ".--")
+        axs[i].plot([j + 1 for j in range(n)], F[i].real)
+        axs[i].plot([j + 1 for j in range(n)], F[i].imag, ".--")
         axs[i].set_ylabel(f"componenta {i}")
 
     fig.savefig(f"./{figures_directory1}/ex1.pdf")
