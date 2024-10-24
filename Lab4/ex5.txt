@@ -1,0 +1,8 @@
+Q:
+    Inregistrat, i-v˘a ˆın timp ce spunet, i, pe rˆand, vocalele “a, e, i, o, u” s, i
+    deschidet, i fis, ierul ˆın Audacity pentru a putea vedea spectrograma (sau
+    folosit, i o aplicat, ie de telefon care v˘a poate afis,a spectrograma ˆın timp
+    real). Putet, i distinge diferitele vocale pe baza ei?
+A:
+    Da, slight :)
+    NOTE: am adaugat o imagine in directorul figures_png cu spectograma generata de audacity

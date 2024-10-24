@@ -1,0 +1,15 @@
+Q:
+     Frecvent,ele emise de un contrabas se ˆıncadreaz˘a ˆıntre 40Hz s, i 200Hz. Care
+    este frecvent,a minim˘a cu care trebuie es,antionat semnalul trece-band˘a
+    provenit din ˆınregistrarea instrumentului, astfel ˆıncˆat semnalul discretizat
+    s˘a cont, in˘a toate componentele de frecvent,˘a pe care instrumentul le poate
+    produce?
+
+A:
+    Fie
+        B = 200Hz (frecventa maxima continuta in semnal),
+        fs = frecventa minima de esantionare pentru reconstructia corecta a semnalului (numar natural)
+    Conform Teoremei Nyquist-Shannon:
+        fs > 2*B => fs > 2*B = 2 * 200 Hz = 400Hz
+                <=> fs > 400Hz
+                     => fs = 401Hz (pentru ca e frecventa minima care satisface teorema,

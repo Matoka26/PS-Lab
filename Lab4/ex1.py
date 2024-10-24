@@ -6,6 +6,8 @@ pe scar˘a logaritmic˘a.
 
 '''
 
+## NOTE: if there exists a local copy of the results it will be used, otherwise
+##       it will be generated and will take some time, the file is in git ignore
 import os
 import time
 import json
@@ -13,7 +15,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from utils import sinusoidal, get_fourier_components, get_random_signal
 
-figures_directory = './figures'
+figures_directory1 = './figures_pdf'
+figures_directory2 = './figures_png'
 temp_file = './temp_ex1.json'
 
 
@@ -57,11 +60,13 @@ def get_statistics_from_temp() -> dict:
 
 
 if __name__ == '__main__':
-    if not os.path.isdir(figures_directory):
-        os.makedirs(figures_directory, exist_ok=True)
+    if not os.path.isdir(figures_directory1):
+        os.makedirs(figures_directory1, exist_ok=True)
+    if not os.path.isdir(figures_directory2):
+        os.makedirs(figures_directory2, exist_ok=True)
 
     exponent_left_limit = 7
-    exponent_right_limit = 14
+    exponent_right_limit = 15
 
     # Get or generate statistics
     if os.path.isfile(temp_file):
@@ -92,4 +97,5 @@ if __name__ == '__main__':
         ax[i].grid()
 
     fig.tight_layout()
-    fig.savefig(f"./{figures_directory}/ex1.pdf")
+    fig.savefig(f"./{figures_directory1}/ex1.pdf")
+    fig.savefig(f"./{figures_directory2}/ex1.png")
