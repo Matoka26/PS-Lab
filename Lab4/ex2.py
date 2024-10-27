@@ -21,14 +21,18 @@ if __name__ == '__main__':
     if not os.path.isdir(figures_directory2):
         os.makedirs(figures_directory2, exist_ok=True)
 
-    f = 100
+    nof_points = 6
+    nof_subplots = 4
+    nof_samples = 500
+    base_frequency = 2
     a = 1
     phi = 0
-    nofs_samples = [int(f/2), f, int(f*1.5), f*2]
+    frequencies = [base_frequency + i * (nof_points - 1) for i in range(nof_subplots)]
+    points = np.linspace(0, 1, nof_points)
 
-    fig, ax = plt.subplots(ncols=1, nrows=len(nofs_samples))
+    fig, ax = plt.subplots(ncols=1, nrows=len(frequencies))
 
-    for i, nof_samples in enumerate(nofs_samples):
+    for i, f in enumerate(frequencies):
         samples = np.linspace(0, 1, nof_samples)
         wave = sinusoidal(a, f, samples, phi)
 
@@ -36,7 +40,9 @@ if __name__ == '__main__':
         ax[i].plot(samples, wave)
         ax[i].plot([0, 0], [a, -a])
         ax[i].plot(samples, [0] * nof_samples)
-        ax[i].set_xlabel(f"Figure {i+1}: Sample rate {1/nof_samples}s")
+        ax[i].set_xlabel(f"Figure {i+1}: Frequency {f}Hz")
+
+        ax[i].scatter(points, sinusoidal(a, f, points, phi), c='y')
 
     fig.tight_layout()
     fig.savefig(f"./{figures_directory2}/ex2.pdf")

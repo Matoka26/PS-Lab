@@ -33,14 +33,14 @@ def generate_statistics(a, b) -> dict:
         samples, wave = get_random_signal(5, n)
 
         # time np_fft.fft
-        start_time = time.time()
+        start_time = time.perf_counter()
         np.fft.fft(wave)
-        df_times['np_fft_times'][i] = time.time() - start_time
+        df_times['np_fft_times'][i] = time.perf_counter() - start_time
 
         # time my dft
-        start_time = time.time()
+        start_time = time.perf_counter()
         get_fourier_components(wave, n)
-        df_times['my_dft_times'][i] = time.time() - start_time
+        df_times['my_dft_times'][i] = time.perf_counter() - start_time
 
     # Convert NumPy arrays to lists
     data_serializable = {key: value.tolist() for key, value in df_times.items()}
@@ -66,7 +66,7 @@ if __name__ == '__main__':
         os.makedirs(figures_directory2, exist_ok=True)
 
     exponent_left_limit = 7
-    exponent_right_limit = 15
+    exponent_right_limit = 16
 
     # Get or generate statistics
     if os.path.isfile(temp_file):

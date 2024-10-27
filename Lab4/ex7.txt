@@ -1,0 +1,16 @@
+Q:
+    Puterea unui semnal este Psemnal = 90dB. Se cunoas, te raportul semnalzgomot, SNRdB = 80dB.
+    Care este puterea zgomotului?
+
+A:
+    Psignal = 90 dB         | Pnoise = ?
+    SNRdb = 80 dB           |
+    ------------------------------------
+
+    SNRdb = Psignal - Pnoise
+  ~ Pnoise = Psignal - SNRdb
+        => Pnoise = 90dB - 80dB
+         ~ Pnoise = 10dB
+
+
+https://en.wikipedia.org/wiki/Signal-to-noise_ratio#Definition
