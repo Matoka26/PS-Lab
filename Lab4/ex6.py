@@ -5,7 +5,7 @@ import os
 
 # Great thanks to skpha13 for helping me on this one
 
-song_path = 'songs_mp3/song.wav'
+song_path = 'vocals/skpha_vocal.wav'
 figures_directory1 = './figures_pdf'
 figures_directory2 = './figures_png'
 
@@ -29,24 +29,20 @@ if __name__ == '__main__':
 
     # read song
     sample_rate, audio_data = wavfile.read(song_path)
-    # crop a random portion of the song
-    audio_data = audio_data[4000:5000]
 
     segmented_audio = get_segmented_wave(audio_data)
     fft_signal = np.fft.fft(segmented_audio, axis=1)
 
-    spectrogram = np.transpose(
-        # select all rows, and half the columns do to symmetry
-        np.abs(fft_signal)[:, : fft_signal.shape[1] // 2]
-    )
+    # combine the segmented spectrogram along the time axis by flattening it
+    # select all rows, and half the columns do to symmetry
+    spectrogram = np.transpose(np.abs(fft_signal)[:, : fft_signal.shape[1] // 2])
 
     # add small constant to avoid log(0)
-    spectrogram = np.log10(spectrogram + 1e-10)
-    print(spectrogram)
+    # change from exponential scale
+    spectrogram = 10 * np.log10(spectrogram + 1e-10)
 
     # extract the samples frequencies
     frequencies = np.fft.fftfreq(segmented_audio.shape[1], d=1 / sample_rate)[: fft_signal.shape[1] // 2]
-    print(frequencies)
 
     plt.figure(figsize=(10, 6))
     plt.imshow(
@@ -54,17 +50,15 @@ if __name__ == '__main__':
         aspect="auto",
         extent=(0, len(audio_data) / sample_rate, frequencies[0], frequencies[-1]),
         origin="lower",
-        cmap="magma",
+        cmap="inferno",
         vmin=0,
         vmax=100,
     )
-    plt.colorbar(label="Magnitude")
+    plt.colorbar()
     plt.xlabel("Time (s)")
     plt.ylabel("Frequency (kHz)")
 
-    name = "Spectrogram of Audio Signal"
+    name = "Spectrogram"
     plt.title(name)
-    plt.savefig(f"plots/{name}.pdf", format="pdf")
-    plt.savefig(f"plots/{name}.png", format="png")
-
-    plt.show()
+    plt.savefig(f"{figures_directory1}/ex6.pdf")
+    plt.savefig(f"{figures_directory2}/ex6.png")
