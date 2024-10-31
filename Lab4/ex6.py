@@ -5,7 +5,7 @@ import os
 
 # Great thanks to skpha13 for helping me on this one
 
-song_path = 'vocals/skpha_vocal.wav'
+song_path = 'vocals/matoka_vocals.wav'
 figures_directory1 = './figures_pdf'
 figures_directory2 = './figures_png'
 
