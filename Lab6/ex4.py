@@ -25,13 +25,16 @@ ale rp s, i observat, i efectul. Stabilit, i val
 
 '''
 Answers:
-    
+    # c)
+    # e)
+    # f)
 '''
 
 import os
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import scipy.signal as ss
 
 
 figures_directory = './figures'
@@ -46,6 +49,7 @@ if __name__ == "__main__":
 
     # a)
     nof_hours = 72
+    sample_rate = 1 / 3600
     samples = samples[:nof_hours]
     wave = wave[:nof_hours]
 
@@ -56,6 +60,53 @@ if __name__ == "__main__":
         plt.plot(samples[:len(aux)], aux, label=f'w:{w}')
     plt.legend()
     plt.grid(True)
-    plt.show()
+    plt.title("Window size variation for convolution")
+    plt.savefig(f"./{figures_directory}/ex4_b.pdf")
+    plt.clf()
 
-    # c)
+    # d)
+    filter_order = 5
+    Wn = sample_rate * 1/10
+    rp = 5
+    b_butter, a_butter = ss.butter(filter_order, Wn, analog=False, output="ba", btype="lowpass", fs=sample_rate)
+    b_cheby, a_cheby = ss.cheby1(filter_order, rp, Wn, analog=False, output="ba",btype="lowpass", fs=sample_rate)
+
+    filtered_butter = ss.lfilter(b_butter, a_butter, wave)
+    filtered_cheby = ss.lfilter(b_cheby, a_cheby, wave)
+
+    plt.plot(samples, wave, label="Actual Signal")
+    plt.plot(samples, filtered_butter, label="Butter")
+    plt.plot(samples, filtered_cheby, label="Cheby")
+    plt.legend()
+    plt.grid(True)
+
+    plt.title("Butter & Cheby")
+    plt.savefig(f"./{figures_directory}/ex4_d.pdf")
+    plt.clf()
+
+    # f)
+    plt.plot(samples, wave, label="Actual Signal")
+    rps = [1e-6, 1, 7, 30]
+    for rp in rps:
+        b_cheby, a_cheby = ss.cheby1(filter_order, rp, Wn, analog=False, output="ba", btype="lowpass", fs=sample_rate)
+        filtered_cheby = ss.lfilter(b_cheby, a_cheby, wave)
+        plt.plot(samples, filtered_cheby, label=f'rp:{rp}')
+    plt.legend()
+    plt.grid(True)
+    plt.title("Rp variation for Cheby")
+    plt.savefig(f"./{figures_directory}/ex4_f1.pdf")
+    plt.clf()
+
+    # order variation
+    plt.plot(samples, wave, label="Actual Signal")
+    filter_order = [1, 5, 9]
+    rp = 5
+    for filter in filter_order:
+        b_cheby, a_cheby = ss.cheby1(filter, rp, Wn, analog=False, output="ba", btype="lowpass", fs=sample_rate)
+        filtered_cheby = ss.lfilter(b_cheby, a_cheby, wave)
+        plt.plot(samples, filtered_cheby, label=f'filter order:{filter}')
+    plt.legend()
+    plt.grid(True)
+    plt.title("Filter order variation for Cheby")
+    plt.savefig(f"./{figures_directory}/ex4_f2.pdf")
+    plt.clf()
