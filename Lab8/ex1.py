@@ -1,17 +1,37 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from utils import sinusoidal
+import os
 
+figures_dir = './figures'
 
 def autocorelation(v: np.array) -> np.array:
     ret = np.zeros(len(v))
     for k in range(len(v)):
-        slice = np.pad(v[len(v)-k-1:], (len(v)-k-1, 0), mode='constant')
-        ret[k] = np.dot(slice, v) / np.std(v) * np.std(slice)
+        slice = np.pad(v[len(v)-k-1:], (0, len(v)-k-1), mode='constant')
+        ret[k] = np.dot(slice, v)
     return ret
 
 
+def ar_predicitons(series: np.array, p: int, nof_predictions: int = 10) -> np.array:
+    # make equal coefficents
+    x = np.ones(p) / p
+    predictions = []
+    for _ in range(nof_predictions):
+        # slice last p rows
+        last_vals = series[-p:]
+        prediction = np.dot(last_vals, x)
+        predictions.append(prediction)
+        series = np.append(series, prediction)
+
+    return np.array(predictions)
+
+
 if __name__ == "__main__":
+    if __name__ == "__main__":
+        if not os.path.isdir(figures_dir):
+            os.makedirs(figures_dir, exist_ok=True)
+
     N = 1000
     samples = np.arange(0, N)
 
@@ -38,7 +58,7 @@ if __name__ == "__main__":
         x.grid(True)
 
     fig.tight_layout()
-    # plt.show()
+    plt.savefig(f'{figures_dir}/ex1_a.pdf')
 
     plt.clf()
     np_corelation = np.correlate(observed, observed, "full")
@@ -54,6 +74,17 @@ if __name__ == "__main__":
     plt.legend()
     plt.grid(True)
 
-    print(np.linalg.norm(np_corelation-my_corelation))
+    # print(f'Difference from my correlation and numpy {np.linalg.norm(np_corelation-my_corelation)}')
 
-    plt.show()
+    plt.savefig(f'{figures_dir}/ex1_b.pdf')
+    plt.clf()
+
+    m = 100
+    p = 100
+    prediction = ar_predicitons(observed, m, p)
+    plt.plot(samples, observed, c='b', label="current")
+    plt.plot(np.arange(N, N+p), prediction, c='r', label="predicted")
+
+    plt.grid(True)
+    plt.legend()
+    plt.savefig(f'{figures_dir}/ex1_c.pdf')
