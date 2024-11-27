@@ -5,6 +5,7 @@ import os
 
 figures_dir = './figures'
 
+
 def autocorelation(v: np.array) -> np.array:
     ret = np.zeros(len(v))
     for k in range(len(v)):
@@ -13,18 +14,20 @@ def autocorelation(v: np.array) -> np.array:
     return ret
 
 
-def ar_predicitons(series: np.array, p: int, nof_predictions: int = 10) -> np.array:
-    # make equal coefficents
-    x = np.ones(p) / p
-    predictions = []
-    for _ in range(nof_predictions):
-        # slice last p rows
-        last_vals = series[-p:]
-        prediction = np.dot(last_vals, x)
-        predictions.append(prediction)
-        series = np.append(series, prediction)
+def ar_predicitons(series: np.array, m: int = 10, p: int = 10) -> (float, float):
+    if m < p:
+        raise ValueError("M>P, illegal")
 
-    return np.array(predictions)
+    Y = []
+    n = len(series)
+    x = series[-m:]
+    for i in range(m, 0, -1):
+        Y.append(series[n-i-p:n-i])
+
+    Y = np.array(Y)
+    y, residuals, rank, _ = np.linalg.lstsq(Y, x)
+
+    return np.dot(y, x[-len(y):]), np.sum(residuals**2 / len(residuals))
 
 
 if __name__ == "__main__":
@@ -37,9 +40,10 @@ if __name__ == "__main__":
 
     trend = [0.00002 * x**2 + 0.0001 * x + 1 for x in samples]
     seassonal = sinusoidal(1, 0.3, samples, 0) + sinusoidal(1, 0.7, samples, 0)
-    residuals = np.random.normal(2, 2, size=N)
+    residuals = np.random.normal(1, 1, size=N)
     observed = trend + seassonal + residuals
 
+    # a)
     fig,ax = plt.subplots(nrows=4, ncols=1)
 
     ax[0].plot(samples, trend)
@@ -61,6 +65,7 @@ if __name__ == "__main__":
     plt.savefig(f'{figures_dir}/ex1_a.pdf')
 
     plt.clf()
+    # b)
     np_corelation = np.correlate(observed, observed, "full")
     np_corelation = np_corelation[:len(np_corelation)//2 + 1]
 
@@ -79,11 +84,14 @@ if __name__ == "__main__":
     plt.savefig(f'{figures_dir}/ex1_b.pdf')
     plt.clf()
 
-    m = 100
-    p = 100
-    prediction = ar_predicitons(observed, m, p)
-    plt.plot(samples, observed, c='b', label="current")
-    plt.plot(np.arange(N, N+p), prediction, c='r', label="predicted")
+    # c)
+    m = 30
+    p = 10
+    prediction, mse = ar_predicitons(observed, m, p)
+    print(f'Prediction for m={m}, p={p}:{prediction}\nMSE: {mse}')
+
+    plt.plot(samples[-100:], observed[-100:], c='b', label='actual')
+    plt.plot([N,N+1], [observed[-1],prediction], c='r', label='prediction')
 
     plt.grid(True)
     plt.legend()
