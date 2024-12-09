@@ -8,12 +8,20 @@ figures_dir = './figures'
 
 def ma_model(serie: np.array, q: int) -> np.array:
     n = len(serie)
-    train = serie[:n//0.8]
-    test = serie[-n//0.2:]
+    mean = np.mean(serie)
+    serie = serie - mean
+    b = serie[q:]
+    e = np.random.normal(0, 1, n)
+    e = np.concatenate(([np.mean(serie)], e))
 
-    print(test)
+    A = []
+    for i in range(0, n-q):
+        A.append(e[i: i+q])
 
-    return np.array()
+    A = np.array(A)
+    thetas, res, _, _ = np.linalg.lstsq(A, b)
+
+    return np.dot(thetas, b[-len(thetas):]) + mean
 
 
 def get_estimation_error(serie: np.array, prediction: np.array) -> float:
@@ -25,10 +33,19 @@ if __name__ == "__main__":
         os.makedirs(figures_dir, exist_ok=True)
 
     N = 1000
+    q = 5
+    m = 20
     samples = np.arange(0, N)
     serie = generate_time_serie(N)
 
-    ma_model(serie)
+    predictions = []
+    for i in range(N - m):
+        predictions.append(ma_model(serie[i: i+m], q))
 
+    plt.plot(samples, serie, label='Series')
+    plt.plot(samples[m:], predictions, label='Prediction')
+    plt.title('MA model prediction')
+    plt.grid()
+    plt.legend()
     plt.savefig(f'{figures_dir}/ex3.pdf')
 

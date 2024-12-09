@@ -4,7 +4,10 @@ from numpy import \
     mod, sign, exp, \
     zeros, linspace, \
     random, \
-    array, ndarray
+    array, ndarray, \
+    arange, \
+    random
+
 
 
 # Formula for a sin wave with sin function
@@ -15,6 +18,11 @@ def sinusoidal(a: float, f: int, t: float, phi: float) -> float:
 # Formula for a sin wave with cos function
 def cosinusoidal(a: float, f: int, t: float, phi: float) -> float:
     return a * cos(2 * pi * f * t + phi - pi/2)
+
+
+# Formula for 2D wave
+def sinusoidal_2d(x: int, y: int, u: float, v: float) -> float:
+    return sin(2 * pi * (x * u + y * v))
 
 
 # Formula for sawtooth like wave
@@ -83,3 +91,13 @@ def get_random_signal(nof_sum_signals: int, nof_samples: int) -> array:
         wave += sinusoidal(amplitudes[i], frequencies[i], samples, phases[i])
 
     return samples, wave
+
+
+def generate_time_serie(N: int) -> array:
+    samples = arange(0, N)
+    trend = [0.00002 * x**2 + 0.0001 * x + 1 for x in samples]
+    seassonal = sinusoidal(1, 0.3, samples, 0) + sinusoidal(1, 0.7, samples, 0)
+    residuals = random.normal(0.5, 0.5, size=N)
+    observed = trend + seassonal + residuals
+
+    return observed
