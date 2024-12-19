@@ -1,3 +1,4 @@
+import numpy as np
 from numpy import \
     sin, cos, \
     pi, \
@@ -101,3 +102,38 @@ def generate_time_serie(N: int) -> array:
     observed = trend + seassonal + residuals
 
     return observed
+
+
+def hankel_from_serie(series: ndarray, L: int) -> ndarray:
+    Y = []
+    n = len(series)
+    x = series[-L:]
+
+    for i in range(L, 0, -1):
+        Y.append(series[n - i - L:n - i])
+
+    return np.array(Y)
+
+
+def hankel_from_matrix(mat: np.ndarray) -> np.ndarray:
+    n = len(mat)
+
+    for d in range(2 * n - 1):
+        i_start = min(d, n - 1)
+        j_start = max(0, d - n + 1)
+
+        avg_arr = []
+        i, j = i_start, j_start
+        while i >= 0 and j < n:
+            avg_arr.append([mat[i][j]])
+            i -= 1
+            j += 1
+
+        i, j = i_start, j_start
+        avg = np.average(avg_arr)
+        while i >= 0 and j < n:
+            mat[i][j] = avg
+            i -= 1
+            j += 1
+
+    return mat
